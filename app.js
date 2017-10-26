@@ -1,14 +1,24 @@
-const express  = require("express");
-const app      = express();
-const mongoose = require("mongoose");
-
+const express    = require("express");
+const app        = express();
+const mongoose   = require("mongoose");
+const Campground = require("./models/campground");
+const seedDB     = require("./seeds");
 
 app.set("view engine", "ejs");
+mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 
+
+seedDB();
 
 app.get("/", function(req, res){
-    res.render("index")
-})
+    Campground.find({}, function(err, allCampgrounds){
+        if(err){
+            console.log(err);
+        } else {
+            res.render("index", {campgrounds: allCampgrounds})
+        }
+    });
+});
 
 
 
