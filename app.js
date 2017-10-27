@@ -1,9 +1,9 @@
-const express    = require("express");
-const app        = express();
-const mongoose   = require("mongoose");
-const Campground = require("./models/campground");
-const seedDB     = require("./seeds");
-const bodyParser = require("body-parser");
+const express        = require("express");
+const app            = express();
+const mongoose       = require("mongoose");
+const Campground     = require("./models/campground");
+const seedDB         = require("./seeds");
+const bodyParser     = require("body-parser");
 const methodOverride = require("method-override");
 
 app.use(methodOverride("_method"));
