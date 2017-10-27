@@ -24,7 +24,7 @@ app.get("/", function(req, res){
 
 app.get("/campgrounds/new", function(req, res){
     res.render("new")
-})
+});
 
 app.post("/campgrounds", function(req, res){
    Campground.create(req.body.campground, function(err, newCampground){
@@ -35,6 +35,16 @@ app.post("/campgrounds", function(req, res){
        }
    })
 })
+
+app.get("/campgrounds/:id", function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("show", {campground: foundCampground})
+        }
+    });
+});
 
 
 app.listen("3000", function(req, res){
