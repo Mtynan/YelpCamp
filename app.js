@@ -27,7 +27,14 @@ app.get("/campgrounds/new", function(req, res){
 })
 
 app.post("/campgrounds", function(req, res){
-   console.log(req.body.campground);
+   Campground.create(req.body.campground, function(err, newCampground){
+       if(err){
+           console.log(err)
+       } else {
+           console.log(newCampground);
+           res.redirect("/");
+       }
+   })
 })
 
 
