@@ -15,6 +15,7 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
+app.use(express.static(__dirname + "/public"));
 
 app.use("/campgrounds", campgroundRoutes);
 app.use(commentRoutes);
