@@ -3,8 +3,10 @@ const app        = express();
 const mongoose   = require("mongoose");
 const Campground = require("./models/campground");
 const seedDB     = require("./seeds");
+const bodyParser = require("body-parser");
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 
 
@@ -22,6 +24,10 @@ app.get("/", function(req, res){
 
 app.get("/campgrounds/new", function(req, res){
     res.render("new")
+})
+
+app.post("/campgrounds", function(req, res){
+   console.log(req.body.campground);
 })
 
 
