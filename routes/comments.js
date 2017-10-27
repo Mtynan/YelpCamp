@@ -13,4 +13,23 @@ router.get("/campgrounds/:id/comments/new", function(req, res){
     });
 });
 
+
+router.post("/campgrounds/:id/comments", function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err)
+        } else {
+            Comment.create(req.body.comment, function(err, comment){
+                if(err){
+                    console.log(err)
+                } else {
+                    foundCampground.comments.push(comment);
+                    foundCampground.save();
+                    res.redirect("/campgrounds/" + foundCampground._id);
+                }
+            });
+        }
+    });   
+});
+
 module.exports = router;
