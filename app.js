@@ -7,6 +7,7 @@ const bodyParser     = require("body-parser");
 const methodOverride = require("method-override");
 
 const campgroundRoutes = require("./routes/campgrounds");
+var commentRoutes = require("./routes/comments");
 
 
 app.use(methodOverride("_method"));
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 
 app.use("/campgrounds", campgroundRoutes);
+app.use(commentRoutes);
 
 //seedDB();
 
