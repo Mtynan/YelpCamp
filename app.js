@@ -69,6 +69,16 @@ app.put("/campgrounds/:id", function(req, res){
     })
 });
 
+app.delete("/campgrounds/:id", function(req, res){
+    Campground.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            console.log(err)
+        } else {
+            res.redirect("/")
+        }
+    })
+})
+
 app.listen("3000", function(req, res){
     console.log("Running on Port 3000");
 });
