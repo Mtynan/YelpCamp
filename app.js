@@ -8,7 +8,7 @@ app.set("view engine", "ejs");
 mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 
 
-seedDB();
+//seedDB();
 
 app.get("/", function(req, res){
     Campground.find({}, function(err, allCampgrounds){
@@ -20,6 +20,9 @@ app.get("/", function(req, res){
     });
 });
 
+app.get("/campgrounds/new", function(req, res){
+    res.render("new")
+})
 
 
 app.listen("3000", function(req, res){
