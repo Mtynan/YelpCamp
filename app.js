@@ -46,6 +46,16 @@ app.get("/campgrounds/:id", function(req, res){
     });
 });
 
+app.get("/campgrounds/:id/edit", function(req, res){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+            console.log(err)
+        } else {
+            res.render("edit", {campground: foundCampground})
+        }
+    });
+});
+
 
 app.listen("3000", function(req, res){
     console.log("Running on Port 3000");
