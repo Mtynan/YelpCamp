@@ -6,78 +6,19 @@ const seedDB         = require("./seeds");
 const bodyParser     = require("body-parser");
 const methodOverride = require("method-override");
 
+const campgroundRoutes = require("./routes/campgrounds");
+
+
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 
+app.use("/campgrounds", campgroundRoutes);
 
 //seedDB();
 
-app.get("/", function(req, res){
-    Campground.find({}, function(err, allCampgrounds){
-        if(err){
-            console.log(err);
-        } else {
-            res.render("index", {campgrounds: allCampgrounds})
-        }
-    });
-});
 
-app.get("/campgrounds/new", function(req, res){
-    res.render("new")
-});
-
-app.post("/campgrounds", function(req, res){
-   Campground.create(req.body.campground, function(err, newCampground){
-       if(err){
-           console.log(err)
-       } else {
-           res.redirect("/");
-       }
-   })
-})
-
-app.get("/campgrounds/:id", function(req, res){
-    Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
-        if(err){
-            console.log(err)
-        } else {
-            res.render("show", {campground: foundCampground})
-        }
-    });
-});
-
-app.get("/campgrounds/:id/edit", function(req, res){
-    Campground.findById(req.params.id, function(err, foundCampground){
-        if(err){
-            console.log(err)
-        } else {
-            res.render("edit", {campground: foundCampground})
-        }
-    });
-});
-
-
-app.put("/campgrounds/:id", function(req, res){
-    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
-        if(err){
-            console.log(err)
-        } else {
-            res.redirect("/campgrounds/" + req.params.id)
-        }
-    })
-});
-
-app.delete("/campgrounds/:id", function(req, res){
-    Campground.findByIdAndRemove(req.params.id, function(err){
-        if(err){
-            console.log(err)
-        } else {
-            res.redirect("/")
-        }
-    })
-})
 
 app.listen("3000", function(req, res){
     console.log("Running on Port 3000");
