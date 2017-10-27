@@ -31,7 +31,6 @@ app.post("/campgrounds", function(req, res){
        if(err){
            console.log(err)
        } else {
-           console.log(newCampground);
            res.redirect("/");
        }
    })
