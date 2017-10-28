@@ -3,6 +3,7 @@ const router     = express.Router({mergeParams: true});
 const Campground = require("../models/campground");
 const Comment = require("../models/comment");
 
+//Comments new
 router.get("/new",isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
@@ -13,7 +14,7 @@ router.get("/new",isLoggedIn, function(req, res){
     });
 });
 
-
+//Comments create
 router.post("/",isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
@@ -36,6 +37,8 @@ router.post("/",isLoggedIn, function(req, res){
     });   
 });
 
+
+//Comments edit
 router.get("/:comment_id/edit", function(req, res){
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if(err){
@@ -46,7 +49,7 @@ router.get("/:comment_id/edit", function(req, res){
     });
 });
 
-
+//Update
 router.put("/:comment_id", function(req, res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(err){
@@ -57,11 +60,23 @@ router.put("/:comment_id", function(req, res){
     });
 });
 
+
+
+//Delete
+router.delete("/:comment_id", function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(err){
+            res.redirect("back");
+        } else {
+            res.redirect("/campgrounds/" + req.params.id);
+        }
+    });
+});
+
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
     res.redirect("/login");
 }
-
 module.exports = router;
