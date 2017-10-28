@@ -24,7 +24,38 @@ app.use("/campgrounds", campgroundRoutes);
 app.use(commentRoutes);
 app.use(indexRoutes);
 
-//seedDB();
+//PASSPORT CONFIG
+app.use(require("express-session")({
+    secret: "secretstuff",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+
+app.get("/register", function(req, res){
+    res.render("register")
+})
+
+app.post("/register", function(req, res){
+    var newUser = new User({username: req.body.username});
+    User.register(newUser, req.body.password, function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register")
+        }
+        passport.authenticate("local")(req, res, function(){
+            res.redirect("/campgrounds");
+        })
+    })
+})
+
+
+
 
 
 
