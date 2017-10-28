@@ -21,6 +21,7 @@ mongoose.connect("mongodb://localhost/yelp_campp",  {useMongoClient: true});
 app.use(express.static(__dirname + "/public"));
 
 
+
 //PASSPORT CONFIG
 app.use(require("express-session")({
     secret:"secretstuff",
