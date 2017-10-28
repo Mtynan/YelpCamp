@@ -3,7 +3,7 @@ const router     = express.Router();
 const Campground = require("../models/campground");
 const Comment = require("../models/comment");
 
-router.get("/campgrounds/:id/comments/new", function(req, res){
+router.get("/campgrounds/:id/comments/new",isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
             console.log(err)
@@ -14,7 +14,7 @@ router.get("/campgrounds/:id/comments/new", function(req, res){
 });
 
 
-router.post("/campgrounds/:id/comments", function(req, res){
+router.post("/campgrounds/:id/comments", isLoggedIn, function(req, res){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
             console.log(err)
@@ -31,5 +31,12 @@ router.post("/campgrounds/:id/comments", function(req, res){
         }
     });   
 });
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
 
 module.exports = router;
